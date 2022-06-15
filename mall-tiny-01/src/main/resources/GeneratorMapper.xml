@@ -23,6 +23,7 @@
 
         <!--           生成带有for update后缀的select语句插件-->
         <!--           <plugin type="cn.doity.common.generator.plugin.SelectForUpdatePlugin"/>-->
+
         <!--
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
@@ -44,21 +45,23 @@
 
         <!-- 配置数据库连接信息 -->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/springboot"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/mall"
                         userId="root"
                         password="6125">
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
         <!-- 生成model类，targetPackage指定model类的包名， targetProject指定生成的model放在eclipse的哪个工程下面-->
         <javaModelGenerator targetPackage="com.yxyl.springboot.model"
                             targetProject="src/main/java">
             <property name="enableSubPackages" value="false"/>
+            <!--mysql8.0以上的版本要添加该行-->
             <property name="trimStrings" value="false"/>
         </javaModelGenerator>
 
         <!-- 生成MyBatis的Mapper.xml文件，targetPackage指定mapper.xml文件的包名， targetProject指定生成的mapper.xml放在eclipse的哪个工程下面 -->
         <sqlMapGenerator targetPackage="com.yxyl.springboot.mapper"
-                         targetProject="src/main/java">
+                         targetProject="src/main/resources">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
@@ -69,13 +72,10 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <!-- 数据库表名及对应的Java模型类名 -->
-        <table tableName="student" domainObjectName="Student"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+        <!--生成全部表tableName设为%-->
+        <table tableName="pms_brand">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
 
     </context>
 </generatorConfiguration>
