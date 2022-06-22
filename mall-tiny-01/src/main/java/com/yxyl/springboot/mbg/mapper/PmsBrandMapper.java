@@ -3,10 +3,8 @@ package com.yxyl.springboot.mbg.mapper;
 import com.yxyl.springboot.mbg.model.PmsBrand;
 import com.yxyl.springboot.mbg.model.PmsBrandExample;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-@Mapper
+
 public interface PmsBrandMapper {
     long countByExample(PmsBrandExample example);
 
