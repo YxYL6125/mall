@@ -30,7 +30,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationTokenFilter.class);
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsService detailsService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Value("${jwt.tokenHead}")
@@ -40,16 +40,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader(this.tokenHeader);
-        if (authHeader != null && authHeader.startsWith(this.tokenHeader)) {//authHeader不为空&&以请求头开始
+        if (authHeader != null && authHeader.startsWith(this.tokenHead)) {//authHeader不为空&&以请求头开始
             String authToken = authHeader.substring(this.tokenHead.length());
             String userName = jwtTokenUtil.getUserNameFromToken(authToken);//获取userName
             LOGGER.info("userName:{}" + userName);
 
             if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {//username不为空，获取权限为空
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
-                if (jwtTokenUtil.validateToken(userName, userDetails)) {//验证token是否还有效
+                UserDetails userDetails = this.detailsService.loadUserByUsername(userName);
+                if (jwtTokenUtil.validateToken(authToken, userDetails)) {//验证token是否还有效
                     UsernamePasswordAuthenticationToken authenticationToken = new
                             UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

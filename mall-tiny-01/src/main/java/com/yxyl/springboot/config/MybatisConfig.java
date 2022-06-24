@@ -12,5 +12,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @MapperScan(basePackages = "com.yxyl.springboot.mbg.mapper")
+
 public class MybatisConfig {
 }
