@@ -55,7 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 .antMatchers("/admin/login", "/admin/register").anonymous()
                 .anyRequest()//除了上述，所有请求都要授权认证
-                .authenticated();
+                .permitAll();
+//                .authenticated();
         http.headers().cacheControl();//禁用缓存
         http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);//添加JWT过滤器
         

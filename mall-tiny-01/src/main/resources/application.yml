@@ -32,10 +32,10 @@ spring:
       password: 6125
   data:
     elasticsearch:
+      rest:
+        uris: http://localhost:9200
       repositories:
         enabled: true
-      cluster-nodes: 127.0.0.1:9200 # es的连接地址及端口号
-      cluster-name: elasticsearch # es集群的名称
   
   mvc:
     pathmatch:
